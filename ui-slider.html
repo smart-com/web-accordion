@@ -1,0 +1,91 @@
+<!DOCTYPE HTML>
+<!-- 
+  * Компонент ui-slider показывает слайдер 
+  * с минимальным и максимальным значением 
+  * из атрибутов min/max 
+  * и генерирует событие slide при его перемещении.
+-->
+<html>
+
+<head>
+  <!-- 
+    * Подключаем jQuery и jQuery UI
+    * Это сделано для того, чтобы другие компоненты, 
+    * которым тоже могут понадобится эти библиотеки, 
+    * также могли импортировать jquery.html. 
+    * При повторном импорте ничего не произойдёт, 
+    * скрипты не будут подгружены и исполнены два раза.
+  -->
+  <link rel="import" href="jquery.html">
+</head>
+
+  <body>
+
+    <!-- В шаблоне должны быть стили и элементы, необходимые слайдеру. -->
+    <template id="tmpl">
+      <style>
+        @import url( https://code.jquery.com/ui/1.11.4/themes/ui-lightness/jquery-ui.css );
+
+        :host {
+          display: block;
+        }
+      </style>
+      <div id="slider"></div>
+    </template>
+
+    <script>
+      ! function() {
+        var localDocument = document.currentScript.ownerDocument;
+        var tmpl = localDocument.getElementById('tmpl');
+
+        var SliderProto = Object.create(HTMLElement.prototype);
+
+        SliderProto.createdCallback = function() {
+          // Создаём Shadow DOM, элемент #slider получаем из него, он не в основном документе.
+          var root = this.createShadowRoot();
+          root.appendChild(tmpl.content.cloneNode(true));
+
+          this.$slider = $(root.getElementById('slider'));
+
+          var self = this;
+
+          /* 
+           * Используя jQuery UI, слайдер создаётся вызовом jQuery UI методом slider, 
+           * который имеет вид $elem.slider({...параметры...});. 
+           * Параметры получаем из атрибутов <ui-slider> (он же this) и отдаём библиотеке. 
+           * Она делает всю работу.
+          */
+          this.$slider.slider({
+            min: +this.getAttribute('min') || 0,
+            max: +this.getAttribute('max') || 100,
+            value: this.getAttribute('value') || 0,
+            slide: function() {
+              /**
+               * Параметр slide задаёт функцию-коллбэк, 
+               * которая вызывается при передвижении слайдера 
+               * и будет генерировать DOM-событие на элементе, 
+               * на которое можно будет поставить обработчик 
+               * при помощи addEventListener. 
+               * В его деталях мы указываем новое значение слайдера.
+               */
+              var event = new CustomEvent("slide", {
+                detail: {
+                  value: self.$slider.slider("option", "value")
+                },
+                bubbles: true
+              });
+              self.dispatchEvent(event);
+            }
+          });
+        };
+
+
+        document.registerElement('ui-slider', {
+          prototype: SliderProto
+        });
+      }();
+    </script>
+
+  </body>
+
+</html>
