@@ -1,24 +1,19 @@
 <!DOCTYPE HTML>
 <html>
 <head>
-  <link rel="import" href="jquery.html">
-</head>
-
-<body>
+  <meta charset="utf-8">
+  <title>Web Accordion</title>
   <style>
     body {
       background: #222;
     }
     web-accordion {
-      max-width: 600px;
       margin: 4rem auto;
       width: 90%;
       font-family: "Raleway";
-      background: #f4f4f4;
     }
     item-header {
       display: block;
-      
       font-size: 0.7rem;
       text-transform: uppercase;
       letter-spacing: 2px;
@@ -46,6 +41,10 @@
     }
 
   </style>
+  <link rel="import" href="jquery.html">
+</head>
+
+<body>
   
   <script>
     // Создаем прототипы для новых элементов
@@ -57,7 +56,7 @@
     // Прототип заголовка
     var HeaderProto        = Object.create( HTMLElement.prototype );
     // Прототип содержимого элементов аккордеона
-    var ContentProto   = Object.create( HTMLElement.prototype );
+    var ContentProto   = Object.create( HTMLDivElement.prototype );
   
     // Регистрируем новые элементы в браузере
     
@@ -74,19 +73,20 @@
       prototype: HeaderProto
     });
     // Item-Сontent
-    document.registerElement( "item-content", {
-      prototype: ContentProto
+    document.registerElement( is="item-content", {
+      prototype: ContentProto,
+      extends: 'div'
     });
     
     function accordionInit( title, copy ) {
-      var $title = $( title );
-      var copy   = copy;
+      var header = $( "item-header" );
+      var content   = $( "item-content" );
   
       // Функция для элемента
-      $title.click( function () {
-        $( this ).next( copy ).slideToggle();
+      header.click( function () {
+        $( this ).next( content ).slideToggle();
         $( this ).parent().siblings().children().next().slideUp();
-        return false;
+        //return false;
       });
     }
     
@@ -96,9 +96,9 @@
   <!-- теперь используем новый элемент -->
   <web-accordion id="accordion">
     <accordion-item>
-      <item-header class="js-title">Real Lorem Ipsum by 37signals</item-header>
+      <item-header>Real Lorem Ipsum by 37signals</item-header>
       
-      <item-content class="open js-copy">
+      <item-content class="open">
         By not having the imagination to imagine what the content "might" be, a design 
         consideration is lost. Meaning becomes obfuscated because "it's just text", 
         understandability gets compromised because nobody realized that this text stuff was 
@@ -109,10 +109,10 @@
       </item-content>
     </accordion-item>
     
-    <accordion-item class="accordion__item">
-      <item-header class="js-title">A random title</item-header>
+    <accordion-item>
+      <item-header>A random title</item-header>
       
-      <item-content class="js-copy">
+      <item-content>
         By not having the imagination to imagine what the content "might" be, 
         a design consideration is lost. Meaning becomes obfuscated because "it's just text", 
         understandability gets compromised because nobody realized that this
@@ -120,9 +120,9 @@
     </accordion-item>
     
     <accordion-item>
-      <item-header class="js-title">A random title</item-header>
+      <item-header>A random title</item-header>
       
-      <item-content class="js-copy">
+      <item-content>
         By not having the imagination to imagine what the content "might" be, 
         a design consideration is lost. Meaning becomes obfuscated because "it's just text", 
         understandability gets compromised because nobody realized that this
@@ -130,9 +130,9 @@
     </accordion-item>
     
     <accordion-item>
-      <item-header class="js-title">A random title</item-header>
+      <item-header>A random title</item-header>
       
-      <item-content class="js-copy">
+      <item-content>
         By not having the imagination to imagine what the content "might" be, 
         a design consideration is lost. Meaning becomes obfuscated because "it's just text", 
         understandability gets compromised because nobody realized that this
@@ -140,9 +140,9 @@
     </accordion-item>
     
     <accordion-item>
-      <item-header class="js-title">A random title</item-header>
+      <item-header>A random title</item-header>
       
-      <item-content class="js-copy">
+      <item-content>
         By not having the imagination to imagine what the content "might" be, 
         a design consideration is lost. Meaning becomes obfuscated because "it's just text", 
         understandability gets compromised because nobody realized that this
@@ -151,7 +151,7 @@
   </web-accordion>
   
   <script>
-      accordion.init( '.js-title', '.js-copy');
+      accordion.init( 'item-header', 'item-content');
   </script>
 </body>
 
