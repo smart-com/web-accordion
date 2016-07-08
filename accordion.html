@@ -1,0 +1,98 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <link rel="import" href="jquery.html">
+</head>
+
+<body>
+  <style>
+    body {
+      background: #222;
+    }
+    .accordion {
+      max-width: 600px;
+      margin: 4rem auto;
+      width: 90%;
+      font-family: "Raleway";
+      background: #f4f4f4;
+    }
+    .accordion__title {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      padding: 1rem 1.5rem;
+      background: #5B5F97;
+      color: white;
+      cursor: pointer;
+      -webkit-transition: .3s ease;
+              transition: .3s ease;
+    }
+    .accordion__title:hover {
+      background: #484b77;
+    }
+    .accordion__copy {
+      display: none;
+      padding: 1rem 1.5rem 2rem 1.5rem;
+      color: gray;
+      line-height: 1.6;
+      font-size: 14px;
+      font-weight: 500;
+    }
+    .accordion__copy--open {
+      display: block;
+    }
+
+  </style>
+  
+  <script>
+    // Прототип с методами для нового элемента
+    var AccordionProto   = Object.create( HTMLElement.prototype );
+  
+    // Регистрируем новый элемент в браузере
+    document.registerElement("web-accordion", {
+      prototype: AccordionProto
+    });
+  </script>
+
+  <!-- теперь используем новый элемент -->
+  <web-accordion id="accordion" class="accordion">
+    <div class="accordion__item">
+      <h3 class="accordion__title js-title">Real Lorem Ipsum by 37signals</h3>
+      <p class="accordion__copy accordion__copy--open js-copy">By not having the imagination to imagine what the content "might" be, a design consideration is lost. Meaning becomes obfuscated because "it's just text", understandability gets compromised because nobody realized that this text stuff was actually meant to be read. Opportunities get lost because the lorem ipsum garbage that you used instead of real content didn't suggest opportunities. The text then gets made really small, because, it's not meant to be used, we might as well create loads of that lovely white space.</p>
+    </div>
+    
+    <div class="accordion__item">
+      <h3 class="accordion__title js-title">A random title</h3>
+      <p class="accordion__copy js-copy">By not having the imagination to imagine what the content "might" be, a design consideration is lost. Meaning becomes obfuscated because "it's just text", understandability gets compromised because nobody realized that this</p>
+    </div>
+    
+    <div class="accordion__item">
+      <h3 class="accordion__title js-title">A random title</h3>
+      <p class="accordion__copy js-copy">By not having the imagination to imagine what the content "might" be, a design consideration is lost. Meaning becomes obfuscated because "it's just text", understandability gets compromised because nobody realized that this</p>
+    </div>
+    
+    <div class="accordion__item">
+      <h3 class="accordion__title js-title">A random title</h3>
+      <p class="accordion__copy js-copy">By not having the imagination to imagine what the content "might" be, a design consideration is lost. Meaning becomes obfuscated because "it's just text", understandability gets compromised because nobody realized that this</p>
+    </div>
+    
+    <div class="accordion__item">
+      <h3 class="accordion__title js-title">A random title</h3>
+      <p class="accordion__copy js-copy">By not having the imagination to imagine what the content "might" be, a design consideration is lost. Meaning becomes obfuscated because "it's just text", understandability gets compromised because nobody realized that this</p>
+    </div>
+  </web-accordion>
+  
+  <script>
+    var $title = $('.js-title');
+    var copy   = '.js-copy';
+
+    // вызовем метод tick() на элементе
+    $title.click(function () {
+      $(this).next(copy).slideToggle();
+      $(this).parent().siblings().children().next().slideUp();
+      return false;
+    });
+  </script>
+</body>
+
+</html>
