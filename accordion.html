@@ -9,14 +9,16 @@
     body {
       background: #222;
     }
-    .accordion {
+    web-accordion {
       max-width: 600px;
       margin: 4rem auto;
       width: 90%;
       font-family: "Raleway";
       background: #f4f4f4;
     }
-    .accordion__title {
+    item-header {
+      display: block;
+      
       font-size: 0.7rem;
       text-transform: uppercase;
       letter-spacing: 2px;
@@ -27,10 +29,11 @@
       -webkit-transition: .3s ease;
               transition: .3s ease;
     }
-    .accordion__title:hover {
+    item-header:hover {
       background: #484b77;
     }
-    .accordion__copy {
+    
+    item-content {
       display: none;
       padding: 1rem 1.5rem 2rem 1.5rem;
       color: gray;
@@ -38,60 +41,117 @@
       font-size: 14px;
       font-weight: 500;
     }
-    .accordion__copy--open {
+    .open {
       display: block;
     }
 
   </style>
   
   <script>
-    // Прототип с методами для нового элемента
-    var AccordionProto   = Object.create( HTMLElement.prototype );
+    // Создаем прототипы для новых элементов
+    
+    // Прототип аккордеона
+    var AccordionProto     = Object.create( HTMLElement.prototype );
+    // Прототип accordion-item
+    var ItemProto          = Object.create( HTMLElement.prototype );
+    // Прототип заголовка
+    var HeaderProto        = Object.create( HTMLElement.prototype );
+    // Прототип содержимого элементов аккордеона
+    var ContentProto   = Object.create( HTMLElement.prototype );
   
-    // Регистрируем новый элемент в браузере
-    document.registerElement("web-accordion", {
+    // Регистрируем новые элементы в браузере
+    
+    // Accordion
+    document.registerElement( "web-accordion", {
       prototype: AccordionProto
     });
+    // Accordion-Item 
+    document.registerElement( "accordion-item", {
+      prototype: ItemProto
+    });
+    // Item-Header
+    document.registerElement( "item-header", {
+      prototype: HeaderProto
+    });
+    // Item-Сontent
+    document.registerElement( "item-content", {
+      prototype: ContentProto
+    });
+    
+    function accordionInit( title, copy ) {
+      var $title = $( title );
+      var copy   = copy;
+  
+      // Функция для элемента
+      $title.click( function () {
+        $( this ).next( copy ).slideToggle();
+        $( this ).parent().siblings().children().next().slideUp();
+        return false;
+      });
+    }
+    
+    AccordionProto.init = accordionInit;
   </script>
 
   <!-- теперь используем новый элемент -->
-  <web-accordion id="accordion" class="accordion">
-    <div class="accordion__item">
-      <h3 class="accordion__title js-title">Real Lorem Ipsum by 37signals</h3>
-      <p class="accordion__copy accordion__copy--open js-copy">By not having the imagination to imagine what the content "might" be, a design consideration is lost. Meaning becomes obfuscated because "it's just text", understandability gets compromised because nobody realized that this text stuff was actually meant to be read. Opportunities get lost because the lorem ipsum garbage that you used instead of real content didn't suggest opportunities. The text then gets made really small, because, it's not meant to be used, we might as well create loads of that lovely white space.</p>
-    </div>
+  <web-accordion id="accordion">
+    <accordion-item>
+      <item-header class="js-title">Real Lorem Ipsum by 37signals</item-header>
+      
+      <item-content class="open js-copy">
+        By not having the imagination to imagine what the content "might" be, a design 
+        consideration is lost. Meaning becomes obfuscated because "it's just text", 
+        understandability gets compromised because nobody realized that this text stuff was 
+        actually meant to be read. Opportunities get lost because the lorem ipsum garbage that 
+        you used instead of real content didn't suggest opportunities. The text then gets made 
+        really small, because, it's not meant to be used, we might as well create loads of that 
+        lovely white space.
+      </item-content>
+    </accordion-item>
     
-    <div class="accordion__item">
-      <h3 class="accordion__title js-title">A random title</h3>
-      <p class="accordion__copy js-copy">By not having the imagination to imagine what the content "might" be, a design consideration is lost. Meaning becomes obfuscated because "it's just text", understandability gets compromised because nobody realized that this</p>
-    </div>
+    <accordion-item class="accordion__item">
+      <item-header class="js-title">A random title</item-header>
+      
+      <item-content class="js-copy">
+        By not having the imagination to imagine what the content "might" be, 
+        a design consideration is lost. Meaning becomes obfuscated because "it's just text", 
+        understandability gets compromised because nobody realized that this
+      </item-content>
+    </accordion-item>
     
-    <div class="accordion__item">
-      <h3 class="accordion__title js-title">A random title</h3>
-      <p class="accordion__copy js-copy">By not having the imagination to imagine what the content "might" be, a design consideration is lost. Meaning becomes obfuscated because "it's just text", understandability gets compromised because nobody realized that this</p>
-    </div>
+    <accordion-item>
+      <item-header class="js-title">A random title</item-header>
+      
+      <item-content class="js-copy">
+        By not having the imagination to imagine what the content "might" be, 
+        a design consideration is lost. Meaning becomes obfuscated because "it's just text", 
+        understandability gets compromised because nobody realized that this
+      </item-content>
+    </accordion-item>
     
-    <div class="accordion__item">
-      <h3 class="accordion__title js-title">A random title</h3>
-      <p class="accordion__copy js-copy">By not having the imagination to imagine what the content "might" be, a design consideration is lost. Meaning becomes obfuscated because "it's just text", understandability gets compromised because nobody realized that this</p>
-    </div>
+    <accordion-item>
+      <item-header class="js-title">A random title</item-header>
+      
+      <item-content class="js-copy">
+        By not having the imagination to imagine what the content "might" be, 
+        a design consideration is lost. Meaning becomes obfuscated because "it's just text", 
+        understandability gets compromised because nobody realized that this
+      </item-content>
+    </accordion-item>
     
-    <div class="accordion__item">
-      <h3 class="accordion__title js-title">A random title</h3>
-      <p class="accordion__copy js-copy">By not having the imagination to imagine what the content "might" be, a design consideration is lost. Meaning becomes obfuscated because "it's just text", understandability gets compromised because nobody realized that this</p>
-    </div>
+    <accordion-item>
+      <item-header class="js-title">A random title</item-header>
+      
+      <item-content class="js-copy">
+        By not having the imagination to imagine what the content "might" be, 
+        a design consideration is lost. Meaning becomes obfuscated because "it's just text", 
+        understandability gets compromised because nobody realized that this
+      </item-content>
+    </accordion-item>
   </web-accordion>
   
   <script>
-    var $title = $('.js-title');
-    var copy   = '.js-copy';
-
-    // вызовем метод tick() на элементе
-    $title.click(function () {
-      $(this).next(copy).slideToggle();
-      $(this).parent().siblings().children().next().slideUp();
-      return false;
-    });
+      accordion.init( '.js-title', '.js-copy');
   </script>
 </body>
 
