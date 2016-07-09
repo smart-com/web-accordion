@@ -146,10 +146,6 @@
     AccordionProto.init = accordionInit;
     AccordionProto.changeColor = changeHeaderColor;
     
-    // Инициализирую слайдер и меняю цвет заголовка
-    accordion.init( 'item-header', 'item-content');
-    accordion.changeColor('#512DA8', '#fff');
-    
     /* SHADOW DOM */
     
     // Находим элемент шаблона
@@ -164,6 +160,10 @@
       root.appendChild(tmpl.content.cloneNode(true));
       this.$accordion = $(root.getElementById('accordion'));
     }
+    
+    // Инициализирую слайдер и меняю цвет заголовка
+    accordion.init( 'item-header', 'item-content');
+    accordion.changeColor('#512DA8', '#fff');
   </script>
 </body>
 
