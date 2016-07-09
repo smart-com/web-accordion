@@ -4,4 +4,4 @@
 
 >*Использованные технологии*: jQuery (accordion), HTML5 Web Components. 
 
->[*Демо*]( https://cdn.rawgit.com/smart-com/canvas-editor/master/index.html )
+>[*Демо*]( https://cdn.rawgit.com/smart-com/web-accordion/blob/master/index.html )
