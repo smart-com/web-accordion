@@ -29,15 +29,16 @@
     }
     
     item-content {
-      display: none;
-      padding: 1rem 1.5rem 2rem 1.5rem;
-      color: gray;
+      display: block;
+      padding: 0;
       line-height: 1.6;
-      font-size: 14px;
+      font-size: 0px;
       font-weight: 500;
     }
-    .open {
-      display: block;
+    accordion-item item-content.open {
+      color: #fff;
+      padding: 1rem 1.5rem 2rem 1.5rem;
+      font-size: 14px;
     }
 
   </style>
@@ -54,7 +55,7 @@
     // Прототип accordion-item
     var ItemProto          = Object.create( HTMLElement.prototype );
     // Прототип заголовка
-    var HeaderProto        = Object.create( HTMLElement.prototype );
+    var HeaderProto        = Object.create( HTMLHeadingElement.prototype );
     // Прототип содержимого элементов аккордеона
     var ContentProto   = Object.create( HTMLDivElement.prototype );
   
@@ -70,10 +71,11 @@
     });
     // Item-Header
     document.registerElement( "item-header", {
-      prototype: HeaderProto
+      prototype: HeaderProto,
+      extends: 'h3'
     });
     // Item-Сontent
-    document.registerElement( is="item-content", {
+    document.registerElement( "item-content", {
       prototype: ContentProto,
       extends: 'div'
     });
@@ -84,6 +86,7 @@
   
       // Функция для элемента
       header.click( function () {
+        $( this ).next( content ).addClass('open');
         $( this ).next( content ).slideToggle();
         $( this ).parent().siblings().children().next().slideUp();
         //return false;
@@ -151,6 +154,7 @@
   </web-accordion>
   
   <script>
+      //$.proxy(accordion.alertMessage, myObj);
       accordion.init( 'item-header', 'item-content');
   </script>
 </body>
