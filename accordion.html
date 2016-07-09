@@ -1,62 +1,89 @@
 <!DOCTYPE HTML>
 <html>
+
 <head>
-  <meta charset="utf-8">
-  <title>Web Accordion</title>
-  <style>
-    body {
-      background: #212121;
-    }
-    
-    web-accordion {
-      display: block;
-      width: fit-content;
-      margin: 4rem auto;
-      font-family: "Raleway";
-      margin: 50px auto;
-    }
-    
-    item-header {
-      display: block;
-      width: 600px;
-      font-size: 0.7rem;
-      text-transform: uppercase;
-      letter-spacing: 2px;
-      padding: 1rem 1.5rem;
-      background: #5B5F97;
-      color: white;
-      cursor: pointer;
-      -webkit-transition: .3s ease;
-              transition: .3s ease;
-    }
-    
-    item-header:hover {
-      background: #484b77;
-    }
-    
-    item-content {
-      display: block;
-      width: 600px;
-      padding: 0;
-      line-height: 1.6;
-      font-size: 0px;
-      font-weight: 500;
-      background-color: #FFFCFC;
-      color: #461B7E;
-    }
-    
-    accordion-item item-content.open {
-      padding: 1rem 1.5rem 2rem 1.5rem;
-      font-size: 14px;
-    }
-  </style>
-  
   <link rel="import" href="jquery.html">
 </head>
 
 <body>
+
+  <template id="accordion-tpl">
+
+  <!-- Модель дома -->      
+  <web-accordion id="accordion">
+    <!-- Достаем из сумрака содержимое открытого в данный момент элемента -->
+    <content select=".open"></content>
+  </web-accordion>
+
+  </template>
+    <!-- 
+      Импортируем все необходимые веб-компоненту стили внутрь шаблона
+      ( вообще, кажется все, что касается шаблона нужно хранить
+      в одном файле )
+    -->
+    <style>
+      @import url(https://code.jquery.com/ui/1.11.4/themes/ui-lightness/jquery-ui.css);
+      @import "accordion.css";
+    </style>
+    
+    <!-- Сам слайдер. Теги - кастомные элементы -->
+    <web-accordion id="accordion">
+      <accordion-item>
+        <item-header>Real Lorem Ipsum by 37signals</item-header>
+        
+        <item-content class="open">
+          By not having the imagination to imagine what the content "might" be, a design 
+          consideration is lost. Meaning becomes obfuscated because "it's just text", 
+          understandability gets compromised because nobody realized that this text stuff was 
+          actually meant to be read. Opportunities get lost because the lorem ipsum garbage that 
+          you used instead of real content didn't suggest opportunities. The text then gets made 
+          really small, because, it's not meant to be used, we might as well create loads of that 
+          lovely white space.
+        </item-content>
+      </accordion-item>
+      
+      <accordion-item>
+        <item-header>A random title</item-header>
+        
+        <item-content>
+          By not having the imagination to imagine what the content "might" be, 
+          a design consideration is lost. Meaning becomes obfuscated because "it's just text", 
+          understandability gets compromised because nobody realized that this
+        </item-content>
+      </accordion-item>
+      
+      <accordion-item>
+        <item-header>A random title</item-header>
+        
+        <item-content>
+          By not having the imagination to imagine what the content "might" be, 
+          a design consideration is lost. Meaning becomes obfuscated because "it's just text", 
+          understandability gets compromised because nobody realized that this
+        </item-content>
+      </accordion-item>
+      
+      <accordion-item>
+        <item-header>A random title</item-header>
+        
+        <item-content>
+          By not having the imagination to imagine what the content "might" be, 
+          a design consideration is lost. Meaning becomes obfuscated because "it's just text", 
+          understandability gets compromised because nobody realized that this
+        </item-content>
+      </accordion-item>
+      
+      <accordion-item>
+        <item-header>A random title</item-header>
+        
+        <item-content>
+          By not having the imagination to imagine what the content "might" be, 
+          a design consideration is lost. Meaning becomes obfuscated because "it's just text", 
+          understandability gets compromised because nobody realized that this
+        </item-content>
+      </accordion-item>
+    </web-accordion>
   
-  <script>
+   <script>
   
     /* CUSTOM ELEMENTS */
     
@@ -90,92 +117,53 @@
       prototype: ContentProto
     });
     
+    // Инициализация слайдера 
     function accordionInit( title, copy ) {
       var header = $( "item-header" );
       var content   = $( "item-content" );
   
-      // Функция для элемента
+      // Открываем, закрываем на клик
       header.click( function () {
+        /*
+         * Мне пока что не удалось наследовать кастомный элемент
+         * от стандартного. Способ Кантора не сработал
+         * Поскольку эта зараза создалась не блочной,
+         * Слайдер дергался. Поэтому я добавила класс open во время клика
+         */
         $( this ).next( content ).addClass('open');
         $( this ).next( content ).slideToggle();
         $( this ).parent().siblings().children().next().slideUp();
       });
     }
     
+    // Это типа настройка - меняет цвет заголовка
     function changeHeaderColor( bgColor, fontColor ) {
       $('item-header').css('background-color', bgColor );
       $('item-header').css('color', fontColor );
     }
     
+    // Добавляю функции в прототип
     AccordionProto.init = accordionInit;
     AccordionProto.changeColor = changeHeaderColor;
     
+    // Инициализирую слайдер и меняю цвет заголовка
+    accordion.init( 'item-header', 'item-content');
+    accordion.changeColor('#512DA8', '#fff');
+    
     /* SHADOW DOM */
     
+    // Находим элемент шаблона
+    var localDocument = document.currentScript.ownerDocument;
+    var tmpl = localDocument.getElementById('accordion-tpl');
     
-    
-  </script>
-
-  <!-- теперь используем новый элемент -->
-  <web-accordion id="accordion">
-    <accordion-item>
-      <item-header>Real Lorem Ipsum by 37signals</item-header>
-      
-      <item-content class="open">
-        By not having the imagination to imagine what the content "might" be, a design 
-        consideration is lost. Meaning becomes obfuscated because "it's just text", 
-        understandability gets compromised because nobody realized that this text stuff was 
-        actually meant to be read. Opportunities get lost because the lorem ipsum garbage that 
-        you used instead of real content didn't suggest opportunities. The text then gets made 
-        really small, because, it's not meant to be used, we might as well create loads of that 
-        lovely white space.
-      </item-content>
-    </accordion-item>
-    
-    <accordion-item>
-      <item-header>A random title</item-header>
-      
-      <item-content>
-        By not having the imagination to imagine what the content "might" be, 
-        a design consideration is lost. Meaning becomes obfuscated because "it's just text", 
-        understandability gets compromised because nobody realized that this
-      </item-content>
-    </accordion-item>
-    
-    <accordion-item>
-      <item-header>A random title</item-header>
-      
-      <item-content>
-        By not having the imagination to imagine what the content "might" be, 
-        a design consideration is lost. Meaning becomes obfuscated because "it's just text", 
-        understandability gets compromised because nobody realized that this
-      </item-content>
-    </accordion-item>
-    
-    <accordion-item>
-      <item-header>A random title</item-header>
-      
-      <item-content>
-        By not having the imagination to imagine what the content "might" be, 
-        a design consideration is lost. Meaning becomes obfuscated because "it's just text", 
-        understandability gets compromised because nobody realized that this
-      </item-content>
-    </accordion-item>
-    
-    <accordion-item>
-      <item-header>A random title</item-header>
-      
-      <item-content>
-        By not having the imagination to imagine what the content "might" be, 
-        a design consideration is lost. Meaning becomes obfuscated because "it's just text", 
-        understandability gets compromised because nobody realized that this
-      </item-content>
-    </accordion-item>
-  </web-accordion>
-  
-  <script>
-      accordion.init( 'item-header', 'item-content');
-      accordion.changeColor('#512DA8', '#fff');
+    // Вешаем событие на создание аккордеона в документе
+    AccordionProto.createdCallback = function() {
+      // Создаем теневой дом
+      var root = this.createShadowRoot();
+      // Цепляем к дому содержимое шаблона
+      root.appendChild(tmpl.content.cloneNode(true));
+      this.$accordion = $(root.getElementById('accordion'));
+    }
   </script>
 </body>
 
