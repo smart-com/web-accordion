@@ -5,15 +5,20 @@
   <title>Web Accordion</title>
   <style>
     body {
-      background: #222;
+      background: #212121;
     }
+    
     web-accordion {
+      display: block;
+      width: fit-content;
       margin: 4rem auto;
-      width: 90%;
       font-family: "Raleway";
+      margin: 50px auto;
     }
+    
     item-header {
       display: block;
+      width: 600px;
       font-size: 0.7rem;
       text-transform: uppercase;
       letter-spacing: 2px;
@@ -24,24 +29,28 @@
       -webkit-transition: .3s ease;
               transition: .3s ease;
     }
+    
     item-header:hover {
       background: #484b77;
     }
     
     item-content {
       display: block;
+      width: 600px;
       padding: 0;
       line-height: 1.6;
       font-size: 0px;
       font-weight: 500;
+      background-color: #FFFCFC;
+      color: #461B7E;
     }
+    
     accordion-item item-content.open {
-      color: #fff;
       padding: 1rem 1.5rem 2rem 1.5rem;
       font-size: 14px;
     }
-
   </style>
+  
   <link rel="import" href="jquery.html">
 </head>
 
@@ -90,7 +99,14 @@
       });
     }
     
+    function changeHeaderColor( bgColor, fontColor ) {
+      $('item-header').css('background-color', bgColor );
+      $('item-header').css('color', fontColor );
+    }
+    
     AccordionProto.init = accordionInit;
+    AccordionProto.changeColor = changeHeaderColor;
+    
   </script>
 
   <!-- теперь используем новый элемент -->
@@ -152,6 +168,7 @@
   
   <script>
       accordion.init( 'item-header', 'item-content');
+      accordion.changeColor('#512DA8', '#fff');
   </script>
 </body>
 
