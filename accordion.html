@@ -55,9 +55,9 @@
     // Прототип accordion-item
     var ItemProto          = Object.create( HTMLElement.prototype );
     // Прототип заголовка
-    var HeaderProto        = Object.create( HTMLHeadingElement.prototype );
+    var HeaderProto        = Object.create( HTMLElement.prototype );
     // Прототип содержимого элементов аккордеона
-    var ContentProto   = Object.create( HTMLDivElement.prototype );
+    var ContentProto   = Object.create( HTMLElement.prototype );
   
     // Регистрируем новые элементы в браузере
     
@@ -71,13 +71,11 @@
     });
     // Item-Header
     document.registerElement( "item-header", {
-      prototype: HeaderProto,
-      extends: 'h3'
+      prototype: HeaderProto
     });
     // Item-Сontent
     document.registerElement( "item-content", {
-      prototype: ContentProto,
-      extends: 'div'
+      prototype: ContentProto
     });
     
     function accordionInit( title, copy ) {
@@ -89,7 +87,6 @@
         $( this ).next( content ).addClass('open');
         $( this ).next( content ).slideToggle();
         $( this ).parent().siblings().children().next().slideUp();
-        //return false;
       });
     }
     
@@ -154,7 +151,6 @@
   </web-accordion>
   
   <script>
-      //$.proxy(accordion.alertMessage, myObj);
       accordion.init( 'item-header', 'item-content');
   </script>
 </body>
