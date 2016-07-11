@@ -8,14 +8,6 @@
 <body>
 
   <template id="accordion-tpl">
-
-  <!-- Модель дома -->      
-  <web-accordion id="accordion">
-    <!-- Достаем из сумрака содержимое открытого в данный момент элемента -->
-    <content select=".open"></content>
-  </web-accordion>
-
-  </template>
     <!-- 
       Импортируем все необходимые веб-компоненту стили внутрь шаблона
       ( вообще, кажется все, что касается шаблона нужно хранить
@@ -82,7 +74,7 @@
         </item-content>
       </accordion-item>
     </web-accordion>
-  
+    </template>
    <script>
   
     /* CUSTOM ELEMENTS */
@@ -117,53 +109,19 @@
       prototype: ContentProto
     });
     
-    // Инициализация слайдера 
-    function accordionInit( title, copy ) {
-      var header = $( "item-header" );
-      var content   = $( "item-content" );
-  
-      // Открываем, закрываем на клик
-      header.click( function () {
-        /*
-         * Мне пока что не удалось наследовать кастомный элемент
-         * от стандартного. Способ Кантора не сработал
-         * Поскольку эта зараза создалась не блочной,
-         * Слайдер дергался. Поэтому я добавила класс open во время клика
-         */
-        $( this ).next( content ).addClass('open');
-        $( this ).next( content ).slideToggle();
-        $( this ).parent().siblings().children().next().slideUp();
-      });
-    }
-    
-    // Это типа настройка - меняет цвет заголовка
-    function changeHeaderColor( bgColor, fontColor ) {
-      $('item-header').css('background-color', bgColor );
-      $('item-header').css('color', fontColor );
-    }
-    
-    // Добавляю функции в прототип
-    AccordionProto.init = accordionInit;
-    AccordionProto.changeColor = changeHeaderColor;
-    
     /* SHADOW DOM */
     
-    // Находим элемент шаблона
+    // Элемент для вставки шаблона в index.html
+    var host = document.querySelector( '#host' );
+    // Создаем теневой дом у элемента в index.html
+    var shadow = host.createShadowRoot();
+    // Страница куда будем импортировать шаблон
     var localDocument = document.currentScript.ownerDocument;
-    var tmpl = localDocument.getElementById('accordion-tpl');
+    // Шаблон
+    var template = localDocument.getElementById( 'accordion-tpl' );
+    // Клонируем содержимое шаблона в теневой дом
+    shadow.appendChild( template.content.cloneNode( true ) );
     
-    // Вешаем событие на создание аккордеона в документе
-    AccordionProto.createdCallback = function() {
-      // Создаем теневой дом
-      var root = this.createShadowRoot();
-      // Цепляем к дому содержимое шаблона
-      root.appendChild(tmpl.content.cloneNode(true));
-      this.$accordion = $(root.getElementById('accordion'));
-    }
-    
-    // Инициализирую слайдер и меняю цвет заголовка
-    accordion.init( 'item-header', 'item-content');
-    accordion.changeColor('#512DA8', '#fff');
   </script>
 </body>
 
