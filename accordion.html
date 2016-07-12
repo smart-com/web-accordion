@@ -8,6 +8,7 @@
 <body>
 
   <template id="accordion-tpl">
+    
     <!-- 
       Импортируем все необходимые веб-компоненту стили внутрь шаблона
       ( вообще, кажется все, что касается шаблона нужно хранить
@@ -109,6 +110,10 @@
       prototype: ContentProto
     });
     
+    HeaderProto.fire = (function() {
+      this.addEventListener('click', function(e) { alert( 'hi' ); });
+    })();
+    
     /* SHADOW DOM */
     
     // Элемент для вставки шаблона в index.html
@@ -121,6 +126,8 @@
     var template = localDocument.getElementById( 'accordion-tpl' );
     // Клонируем содержимое шаблона в теневой дом
     shadow.appendChild( template.content.cloneNode( true ) );
+    
+    
     
   </script>
 </body>
