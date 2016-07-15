@@ -2,134 +2,84 @@
 <html>
 
 <head>
+  <!-- Стили для аккордеона-->
+  <link rel="stylesheet" href="accordion.css">
+  <!-- Подключаем jQuery для документа -->
   <link rel="import" href="jquery.html">
 </head>
 
 <body>
 
-  <template id="accordion-tpl">
+<template id="accordion-tpl">
     
-    <!-- 
-      Импортируем все необходимые веб-компоненту стили внутрь шаблона
-      ( вообще, кажется все, что касается шаблона нужно хранить
-      в одном файле )
-    -->
-    <style>
-      @import url(https://code.jquery.com/ui/1.11.4/themes/ui-lightness/jquery-ui.css);
-      @import "accordion.css";
-    </style>
+  <!-- 
+    Импортируем все необходимые веб-компоненту стили 
+    прямо в шаблон
+  -->
+  <style>
+    @import url(https://code.jquery.com/ui/1.11.4/themes/ui-lightness/jquery-ui.css);
+    @import "accordion.css";
+  </style>
     
-    <!-- Сам слайдер. Теги - кастомные элементы -->
-    <web-accordion id="accordion">
-      <accordion-item>
-        <item-header>Real Lorem Ipsum by 37signals</item-header>
+  <!-- Сам слайдер. Теги - кастомные элементы -->
+  <web-accordion id="accordion-tpl">
+    <accordion-item>
+      <item-header>Real Lorem Ipsum by 37signals</item-header>
         
-        <item-content class="open">
-          By not having the imagination to imagine what the content "might" be, a design 
-          consideration is lost. Meaning becomes obfuscated because "it's just text", 
-          understandability gets compromised because nobody realized that this text stuff was 
-          actually meant to be read. Opportunities get lost because the lorem ipsum garbage that 
-          you used instead of real content didn't suggest opportunities. The text then gets made 
-          really small, because, it's not meant to be used, we might as well create loads of that 
-          lovely white space.
-        </item-content>
-      </accordion-item>
+      <item-content class="open">
+        By not having the imagination to imagine what the content "might" be, a design 
+        consideration is lost. Meaning becomes obfuscated because "it's just text", 
+        understandability gets compromised because nobody realized that this text stuff was 
+        actually meant to be read. Opportunities get lost because the lorem ipsum garbage that 
+        you used instead of real content didn't suggest opportunities. The text then gets made 
+        really small, because, it's not meant to be used, we might as well create loads of that 
+        lovely white space.
+      </item-content>
+    </accordion-item>
       
-      <accordion-item>
-        <item-header>A random title</item-header>
+    <accordion-item>
+      <item-header>A random title</item-header>
         
-        <item-content>
-          By not having the imagination to imagine what the content "might" be, 
-          a design consideration is lost. Meaning becomes obfuscated because "it's just text", 
-          understandability gets compromised because nobody realized that this
-        </item-content>
-      </accordion-item>
+      <item-content>
+        By not having the imagination to imagine what the content "might" be, 
+        a design consideration is lost. Meaning becomes obfuscated because "it's just text", 
+        understandability gets compromised because nobody realized that this
+      </item-content>
+    </accordion-item>
       
-      <accordion-item>
-        <item-header>A random title</item-header>
+    <accordion-item>
+      <item-header>A random title</item-header>
         
-        <item-content>
-          By not having the imagination to imagine what the content "might" be, 
-          a design consideration is lost. Meaning becomes obfuscated because "it's just text", 
-          understandability gets compromised because nobody realized that this
-        </item-content>
-      </accordion-item>
+      <item-content>
+        By not having the imagination to imagine what the content "might" be, 
+        a design consideration is lost. Meaning becomes obfuscated because "it's just text", 
+        understandability gets compromised because nobody realized that this
+      </item-content>
+    </accordion-item>
       
-      <accordion-item>
-        <item-header>A random title</item-header>
+    <accordion-item>
+      <item-header>A random title</item-header>
         
-        <item-content>
-          By not having the imagination to imagine what the content "might" be, 
-          a design consideration is lost. Meaning becomes obfuscated because "it's just text", 
-          understandability gets compromised because nobody realized that this
-        </item-content>
-      </accordion-item>
+      <item-content>
+        By not having the imagination to imagine what the content "might" be, 
+        a design consideration is lost. Meaning becomes obfuscated because "it's just text", 
+        understandability gets compromised because nobody realized that this
+      </item-content>
+    </accordion-item>
       
-      <accordion-item>
-        <item-header>A random title</item-header>
+    <accordion-item>
+      <item-header>A random title</item-header>
         
-        <item-content>
-          By not having the imagination to imagine what the content "might" be, 
-          a design consideration is lost. Meaning becomes obfuscated because "it's just text", 
-          understandability gets compromised because nobody realized that this
-        </item-content>
-      </accordion-item>
-    </web-accordion>
-    </template>
-   <script>
-  
-    /* CUSTOM ELEMENTS */
-    
-    // Создаем прототипы для новых элементов
-    
-    // Прототип аккордеона
-    var AccordionProto     = Object.create( HTMLElement.prototype );
-    // Прототип accordion-item
-    var ItemProto          = Object.create( HTMLElement.prototype );
-    // Прототип заголовка
-    var HeaderProto        = Object.create( HTMLElement.prototype );
-    // Прототип содержимого элементов аккордеона
-    var ContentProto   = Object.create( HTMLElement.prototype );
-  
-    // Регистрируем новые элементы в браузере
-    
-    // Accordion
-    document.registerElement( "web-accordion", {
-      prototype: AccordionProto
-    });
-    // Accordion-Item 
-    document.registerElement( "accordion-item", {
-      prototype: ItemProto
-    });
-    // Item-Header
-    document.registerElement( "item-header", {
-      prototype: HeaderProto
-    });
-    // Item-Сontent
-    document.registerElement( "item-content", {
-      prototype: ContentProto
-    });
-    
-    HeaderProto.fire = (function() {
-      this.addEventListener('click', function(e) { alert( 'hi' ); });
-    })();
-    
-    /* SHADOW DOM */
-    
-    // Элемент для вставки шаблона в index.html
-    var host = document.querySelector( '#host' );
-    // Создаем теневой дом у элемента в index.html
-    var shadow = host.createShadowRoot();
-    // Страница куда будем импортировать шаблон
-    var localDocument = document.currentScript.ownerDocument;
-    // Шаблон
-    var template = localDocument.getElementById( 'accordion-tpl' );
-    // Клонируем содержимое шаблона в теневой дом
-    shadow.appendChild( template.content.cloneNode( true ) );
-    
-    
-    
-  </script>
+      <item-content>
+        By not having the imagination to imagine what the content "might" be, 
+        a design consideration is lost. Meaning becomes obfuscated because "it's just text", 
+        understandability gets compromised because nobody realized that this
+      </item-content>
+    </accordion-item>
+  </web-accordion>
+</template>
+ 
+  <!-- Скрипты для аккордеона-->
+  <script src="accordion.js"></script>
 </body>
-
 </html>
