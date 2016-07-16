@@ -4,21 +4,22 @@
   
   // CUSTOM ELEMENTS
   
-  var registerElem = function( customTag, doc, parentPrototype ) {
+  // parent - optional ( HTMLElement по умолчанию )
+  // foo - optional ( по умолчанию запишется пустая строка )
+  var registerElem = function( customTag, doc, parentPrototype, foo ) {
   
     // parentPrototype - прототип от которого будем наследоваться
-    // стандартный tmlElement по умолчанию
+    // стандартный HtmlElement по умолчанию
     function createProto( parentPrototype ) {
       var parent = parentPrototype || HTMLElement;
+      var callback = foo || '';
       // Создаем прототип для аккордеона
       var parentProto = Object.create( parent, {
         
-        // Колбэк запустится при создании элемента
+        // Колбэк из параметров запустится при создании элемента
         createdCallback: {
-          value: function() {
-              alert( this );
-            }
-          }
+          value: foo
+        }
       });
       return parentProto;
     }
@@ -37,25 +38,32 @@
     
     return registerElem( customTag, doc, parentPrototype );
   };
+   
+  // this - Создаваемый HTML-элемент
+  function createShadowRoot() {
+    var templates = localDocument.getElementsByTagName( 'template' );
+    // Находим шаблон по имени тега, 
+    // потому что идентификатор трудно передать в параметры
+    var tmpl = templates[ 0 ];
+    var root = this.createShadowRoot();
+    root.appendChild( tmpl.content.cloneNode( true ) );
+  }
   
   // Регистрируем новый элемент в браузере
-  var AccordionProto = registerElem( "web-accordion", localDocument,  HTMLDivElement.prototype );
- 
-  
+  var AccordionProto = registerElem( "web-accordion", localDocument,  HTMLDivElement.prototype, createShadowRoot );
   // Создаем элемент
   var accordion = new AccordionProto();
   console.log( accordion );
-  
   // Помещаем его в body
   document.body.appendChild( accordion );
   
   // Здесь будет API
   // this - HTML-элемент
-  AccordionProto.prototype.foo = function() {
-    console.log('foo() called');
-    console.log( this );
+  AccordionProto.prototype.doAnything = function() {
+    console.log('something matter...');
+    //console.log( this );
   };
   
   // Запускаем функцию
-  accordion.foo();
+  accordion.doAnything();
 })();
