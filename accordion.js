@@ -41,9 +41,9 @@
    
   // this - Создаваемый HTML-элемент
   function createShadowRoot() {
-    var templates = localDocument.getElementsByTagName( 'template' );
     // Находим шаблон по имени тега, 
     // потому что идентификатор трудно передать в параметры
+    var templates = localDocument.getElementsByTagName( 'template' );
     var tmpl = templates[ 0 ];
     var root = this.createShadowRoot();
     root.appendChild( tmpl.content.cloneNode( true ) );
@@ -64,6 +64,24 @@
     //console.log( this );
   };
   
+  // Точно так же регистрируем остальные элементы
+   var ItemProto = registerElem( 
+    "accordion-item", localDocument,  HTMLDivElement.prototype );
+   var HeaderProto = registerElem( 
+    "item-header", localDocument,  HTMLHeadingElement.prototype );
+   var ContentProto = registerElem( 
+    "item-content", localDocument,  HTMLParagraphElement.prototype );
+  
+  // Создаем заголовок
+  var title = new HeaderProto();
+  console.log( title );
+  
+  // Здесь будет API
+  // this - HTML-элемент
+  HeaderProto.prototype.doAnything = function() {
+    this.style.backgroundColor = 'green';
+  };
+  
   // Запускаем функцию
-  accordion.doAnything();
+  title.doAnything();
 })();
