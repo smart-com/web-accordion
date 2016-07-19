@@ -58,13 +58,28 @@
   var AccordionProto = registerElem( 
     "web-accordion", localDocument, HTMLDivElement.prototype );
   
-  // Создаем элемент
-  var accordion = new AccordionProto();
   
   // Здесь будет API
   // this - HTML-элемент
-  AccordionProto.prototype.doAnything = function() {
-  };
+  function doAnything() {
+      var header = $(  'body /deep/ item-header' );
+      var ctnt   = "item-content";
+      // Открываем, закрываем на клик
+      header.click(function () {
+        // Закрываем все панели
+        $( this ).parent().siblings().find( ctnt ).hide();
+  
+        // Удаляем дефолтный класс open
+        if ( $( this ).next().attr( "class" ) === 'open') {
+          // При этом оставляем панель открытой
+          $( this ).next().show( 'slow' );
+        }
+        else {
+          // Теперь назначаем для всех панелей переключение
+          $( this ).next().toggle( 'slow' );
+        }
+    });
+  }
   
   // Точно так же регистрируем остальные элементы
    var ItemProto = registerElem( 
@@ -82,6 +97,8 @@
   HeaderProto.prototype.doAnything = function() {
   };
   
+  // Создаем элемент
+  var accordion = new AccordionProto();
   // Запускаем функцию
-  title.doAnything();
+  doAnything();
 })();
