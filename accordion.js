@@ -68,9 +68,13 @@
       header.click(function () {
         // Закрываем все панели
         $( this ).parent().siblings().find( ctnt ).hide();
+        // Без этого jQuery разваливает блок на строчки
+        $( this ).css( 'display', 'block' );
   
         // Удаляем дефолтный класс open
         if ( $( this ).next().attr( "class" ) === 'open') {
+          // Я уже не хочу удалять вообще ничего лишнего
+          $( this ).next().removeClass( 'open' );
           // При этом оставляем панель открытой
           $( this ).next().show( 'slow' );
         }
